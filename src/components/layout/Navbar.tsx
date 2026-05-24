@@ -46,8 +46,16 @@ export const Navbar = () => {
         {isAuthenticated ? (
           <>
             <Link to="/profile" className="site-user-pill">
-              <span className="site-user-pill__avatar">
-                <User size={15} />
+              <span className="site-user-pill__avatar" style={{ overflow: 'hidden' }}>
+                {user?.avatar ? (
+                  <img 
+                    src={user.avatar.startsWith('https') ? user.avatar : `http://localhost:8080/api/v1/files/${user.avatar}`} 
+                    alt={user.fullName} 
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                  />
+                ) : (
+                  <User size={15} />
+                )}
               </span>
               <span className="site-user-pill__meta">
                 <strong>{user?.fullName || 'Người dùng'}</strong>

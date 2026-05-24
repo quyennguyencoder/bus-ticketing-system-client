@@ -84,6 +84,78 @@ export const CheckoutPage = () => {
       <div className="detail-grid">
         <form className="panel checkout-form" onSubmit={handleSubmit}>
           {holdExpiresAt ? <div className="notice">Han giu ghe: {new Date(holdExpiresAt).toLocaleTimeString('vi-VN')}</div> : null}
+          
+          {pickupStop && dropoffStop && selectedTrip && (
+            <div 
+              style={{ 
+                backgroundColor: '#f8fafc', 
+                border: '1px solid #e2e8f0', 
+                borderRadius: '8px', 
+                padding: '16px', 
+                marginBottom: '24px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px'
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '14px', fontWeight: 600, color: '#1e293b' }}>Thông tin hành trình đã chọn</span>
+                <span style={{ fontSize: '12px', color: '#64748b' }}>Tuyến: <strong>{selectedTrip.routeName}</strong></span>
+              </div>
+              
+              <div style={{ display: 'flex', gap: '20px', position: 'relative' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', width: '24px', paddingTop: '4px' }}>
+                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#3b82f6', zIndex: 2 }} />
+                  <div style={{ flex: 1, width: '2px', borderLeft: '2px dashed #cbd5e1', margin: '4px 0', zIndex: 1 }} />
+                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#10b981', zIndex: 2 }} />
+                </div>
+                
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div>
+                    <div style={{ fontSize: '13px', fontWeight: 600, color: '#1e293b' }}>
+                      Đón: {pickupStop.pointName} <span style={{ fontWeight: 400, color: '#64748b' }}>({pickupStop.provinceName})</span>
+                    </div>
+                    <div style={{ fontSize: '12px', color: '#2563eb', fontWeight: 500, marginTop: '2px' }}>
+                      Thời gian đón: {(() => {
+                        try {
+                          const baseTime = new Date(selectedTrip.departureTime)
+                          const stopTime = new Date(baseTime.getTime() + pickupStop.timeOffsetMinutes * 60 * 1000)
+                          const hours = String(stopTime.getHours()).padStart(2, '0')
+                          const minutes = String(stopTime.getMinutes()).padStart(2, '0')
+                          const day = String(stopTime.getDate()).padStart(2, '0')
+                          const month = String(stopTime.getMonth() + 1).padStart(2, '0')
+                          return `${hours}:${minutes} (${day}/${month})`
+                        } catch {
+                          return ''
+                        }
+                      })()}
+                    </div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '13px', fontWeight: 600, color: '#1e293b' }}>
+                      Trả: {dropoffStop.pointName} <span style={{ fontWeight: 400, color: '#64748b' }}>({dropoffStop.provinceName})</span>
+                    </div>
+                    <div style={{ fontSize: '12px', color: '#059669', fontWeight: 500, marginTop: '2px' }}>
+                      Thời gian trả: {(() => {
+                        try {
+                          const baseTime = new Date(selectedTrip.departureTime)
+                          const stopTime = new Date(baseTime.getTime() + dropoffStop.timeOffsetMinutes * 60 * 1000)
+                          const hours = String(stopTime.getHours()).padStart(2, '0')
+                          const minutes = String(stopTime.getMinutes()).padStart(2, '0')
+                          const day = String(stopTime.getDate()).padStart(2, '0')
+                          const month = String(stopTime.getMonth() + 1).padStart(2, '0')
+                          return `${hours}:${minutes} (${day}/${month})`
+                        } catch {
+                          return ''
+                        }
+                      })()}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           <Input
             label="Ho ten"
             value={passengerInfo.fullName}

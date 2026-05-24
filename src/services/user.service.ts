@@ -34,6 +34,11 @@ export const userService = {
     return response.data
   },
 
+  updateUserRole: async (userId: string, role: string): Promise<ApiResponse<UserResponse>> => {
+    const response = await axiosInstance.patch(`/api/v1/users/${userId}/role`, null, { params: { role } })
+    return response.data
+  },
+
   uploadAvatar: async (userId: string, file: File): Promise<ApiResponse<UserResponse>> => {
     const formData = new FormData()
     formData.append('file', file)
