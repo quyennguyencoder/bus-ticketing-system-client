@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react'
+import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { LogIn } from 'lucide-react'
@@ -6,6 +6,7 @@ import { Button } from '../components/ui/Button'
 import { Input } from '../components/ui/Input'
 import { useAuthStore } from '../stores/auth.store'
 import { getApiErrorMessage } from '../utils/api-error'
+import { authService } from '../services/auth.service'
 
 export const LoginPage = () => {
   const navigate = useNavigate()
@@ -17,7 +18,7 @@ export const LoginPage = () => {
 
   const from = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname || '/'
 
-  const handleSubmit = async (event: FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setLoading(true)
     try {
@@ -27,6 +28,21 @@ export const LoginPage = () => {
     } catch (error) {
       toast.error(getApiErrorMessage(error))
     } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleSocialLogin = async (provider: string) => {
+    setLoading(true)
+    try {
+      const response = await authService.socialLogin(provider)
+      if (response.data?.authUrl) {
+        window.location.href = response.data.authUrl
+      } else {
+        throw new Error('Khong the lay dia chi dang nhap')
+      }
+    } catch (error) {
+      toast.error(getApiErrorMessage(error))
       setLoading(false)
     }
   }
@@ -47,8 +63,38 @@ export const LoginPage = () => {
         <Button type="submit" disabled={loading} icon={<LogIn size={16} />}>
           {loading ? 'Dang xu ly' : 'Dang nhap'}
         </Button>
-        <span>
-          Chua co tai khoan? <Link to="/register">Dang ky</Link>
+        
+        <div style={{ display: 'flex', alignItems: 'center', margin: '20px 0 12px' }}>
+          <div style={{ flex: 1, height: '1px', backgroundColor: '#e2e8f0' }}></div>
+          <span style={{ padding: '0 16px', fontSize: '13px', color: '#64748b', fontWeight: 500 }}>
+            Hoặc đăng nhập với
+          </span>
+          <div style={{ flex: 1, height: '1px', backgroundColor: '#e2e8f0' }}></div>
+        </div>
+
+        <div style={{ display: 'flex', gap: '12px', marginBottom: '8px' }}>
+          <Button 
+            type="button" 
+            variant="outline" 
+            style={{ flex: 1, display: 'flex', justifyContent: 'center', color: '#db4437', borderColor: '#f8d7da', backgroundColor: '#fff' }}
+            onClick={() => handleSocialLogin('google')}
+            disabled={loading}
+          >
+            Google
+          </Button>
+          <Button 
+            type="button" 
+            variant="outline" 
+            style={{ flex: 1, display: 'flex', justifyContent: 'center', color: '#4267B2', borderColor: '#d1e7dd', backgroundColor: '#fff' }}
+            onClick={() => handleSocialLogin('facebook')}
+            disabled={loading}
+          >
+            Facebook
+          </Button>
+        </div>
+
+        <span style={{ textAlign: 'center', display: 'block', marginTop: '16px' }}>
+          Chua co tai khoan? <Link to="/register" style={{ fontWeight: 600 }}>Dang ky</Link>
         </span>
       </form>
     </section>

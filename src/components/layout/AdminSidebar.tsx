@@ -102,7 +102,7 @@ export const AdminSidebar = () => {
 
   const handleLogout = async () => {
     await logout()
-    navigate('/login')
+    navigate('/')
   }
 
   const toggleGroup = (groupKey: string) => {

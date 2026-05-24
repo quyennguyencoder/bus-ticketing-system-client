@@ -23,9 +23,11 @@ import { NotFoundPage } from '../pages/NotFoundPage'
 import { PaymentResultPage } from '../pages/PaymentResultPage'
 import { ProfilePage } from '../pages/ProfilePage'
 import { RegisterPage } from '../pages/RegisterPage'
+import { OrderDetailPage } from '../pages/OrderDetailPage'
 import { TripDetailPage } from '../pages/TripDetailPage'
 import { TripSearchPage } from '../pages/TripSearchPage'
 import { TripStopsPage } from '../pages/TripStopsPage'
+import { SocialCallbackPage } from '../pages/SocialCallbackPage'
 
 export const router = createBrowserRouter([
   {
@@ -53,6 +55,7 @@ export const router = createBrowserRouter([
     children: [
       { path: '/login', element: <LoginPage /> },
       { path: '/register', element: <RegisterPage /> },
+      { path: '/auth/:provider/callback/', element: <SocialCallbackPage /> },
     ],
   },
   {
@@ -62,6 +65,7 @@ export const router = createBrowserRouter([
         element: <ProtectedRoute />,
         children: [
           { path: '/my-orders', element: <MyOrdersPage /> },
+          { path: '/my-orders/:orderId', element: <OrderDetailPage /> },
           { path: '/profile', element: <ProfilePage /> },
         ],
       },

@@ -19,6 +19,11 @@ export const orderService = {
     return response.data
   },
 
+  getOrderById: async (id: string): Promise<ApiResponse<OrderResponse>> => {
+    const response = await axiosInstance.get(`/api/v1/orders/${id}`)
+    return response.data
+  },
+
   confirmCashPayment: async (id: string): Promise<ApiResponse<OrderResponse>> => {
     const response = await axiosInstance.put(`/api/v1/orders/${id}/pay`)
     return response.data

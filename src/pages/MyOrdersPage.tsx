@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { Badge } from '../components/ui/Badge'
 import { EmptyState } from '../components/ui/EmptyState'
@@ -16,6 +17,7 @@ const statusTone = (status: string) => {
 }
 
 export const MyOrdersPage = () => {
+  const navigate = useNavigate()
   const [orders, setOrders] = useState<OrderResponse[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -37,7 +39,12 @@ export const MyOrdersPage = () => {
       {!loading && !orders.length ? <EmptyState title="Ban chua co don hang">Cac ve da dat se xuat hien tai day.</EmptyState> : null}
       <div className="order-list">
         {orders.map((order) => (
-          <article className="order-card" key={order.orderId}>
+          <article 
+            className="order-card" 
+            key={order.orderId} 
+            onClick={() => navigate(`/my-orders/${order.orderId}`)}
+            style={{ cursor: 'pointer' }}
+          >
             <div>
               <h3>Don {order.orderId}</h3>
               <p>{formatDateTime(order.createdAt)}</p>

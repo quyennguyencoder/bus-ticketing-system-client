@@ -1,3 +1,5 @@
+import { UserStatus } from '../enums/UserStatus'
+
 export interface UserResponse {
   id: string
   fullName: string
@@ -5,4 +7,5 @@ export interface UserResponse {
   phoneNumber: string
   avatar?: string
   roles: string
+  status?: UserStatus
 }
