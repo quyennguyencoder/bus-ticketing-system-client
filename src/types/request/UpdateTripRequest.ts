@@ -5,4 +5,7 @@ export interface UpdateTripRequest {
   arrivalTime?: string // ISO-8601 DateTime string
   basePrice?: number
   price?: number
+  routeId?: string
+  driverName?: string
+  driverPhoneNumber?: string
 }

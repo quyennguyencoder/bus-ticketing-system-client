@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { BookingStepper } from '../components/booking/BookingStepper'
 import { RouteStopSelect } from '../components/booking/RouteStopSelect'
 import { Button } from '../components/ui/Button'
 import { ErrorState } from '../components/ui/ErrorState'
@@ -84,6 +85,7 @@ export const TripStopsPage = () => {
 
   return (
     <section className="page-stack">
+      <BookingStepper currentStep={2} />
       <div className="page-heading compact">
         <span className="eyebrow">Chon diem don/tra</span>
         <h1>Lua chon diem don va diem tra</h1>

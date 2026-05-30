@@ -1,7 +1,6 @@
 export * from './OrderStatus'
 export * from './PaymentMethod'
 export * from './PaymentStatus'
-export * from './Region'
 export * from './SeatStatus'
 export * from './SocialLoginType'
 export * from './TripStatus'

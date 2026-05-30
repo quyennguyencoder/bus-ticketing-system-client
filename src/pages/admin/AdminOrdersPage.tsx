@@ -143,6 +143,7 @@ export const AdminOrdersPage = () => {
   const getStatusBadge = (status: OrderStatus) => {
     switch (status) {
       case OrderStatus.PAID:
+      case OrderStatus.COMPLETED:
         return 'badge badge-success'
       case OrderStatus.PENDING:
       case OrderStatus.UNPAID:
@@ -167,6 +168,8 @@ export const AdminOrdersPage = () => {
         return 'Đã hủy'
       case OrderStatus.REFUND:
         return 'Hoàn tiền'
+      case OrderStatus.COMPLETED:
+        return 'Đã hoàn thành'
       default:
         return status
     }
@@ -261,6 +264,7 @@ export const AdminOrdersPage = () => {
             <option value={OrderStatus.PENDING}>Chờ thanh toán</option>
             <option value={OrderStatus.UNPAID}>Chưa thanh toán</option>
             <option value={OrderStatus.PAID}>Đã thanh toán</option>
+            <option value={OrderStatus.COMPLETED}>Đã hoàn thành</option>
             <option value={OrderStatus.CANCELLED}>Đã hủy</option>
             <option value={OrderStatus.REFUND}>Hoàn tiền</option>
           </select>

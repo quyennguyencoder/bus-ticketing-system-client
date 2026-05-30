@@ -10,7 +10,7 @@ import { getApiErrorMessage } from '../utils/api-error'
 import { formatCurrencyVnd, formatDateTime } from '../utils/format'
 
 const statusTone = (status: string) => {
-  if (status === 'PAID') return 'success'
+  if (status === 'PAID' || status === 'COMPLETED') return 'success'
   if (status === 'CANCELLED' || status === 'REFUND') return 'danger'
   if (status === 'UNPAID') return 'warning'
   return 'neutral'

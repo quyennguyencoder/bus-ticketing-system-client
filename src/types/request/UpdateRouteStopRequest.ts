@@ -3,4 +3,5 @@ export interface UpdateRouteStopRequest {
   timeOffsetMinutes?: number
   isPickUp?: boolean
   isDropOff?: boolean
+  pointId?: string
 }

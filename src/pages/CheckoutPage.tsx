@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { CreditCard } from 'lucide-react'
+import { BookingStepper } from '../components/booking/BookingStepper'
 import { BookingSummary } from '../components/booking/BookingSummary'
 import { Button } from '../components/ui/Button'
 import { Input } from '../components/ui/Input'
@@ -75,6 +76,7 @@ export const CheckoutPage = () => {
 
   return (
     <section className="page-stack">
+      <BookingStepper currentStep={3} />
       <div className="page-heading compact">
         <span className="eyebrow">Thanh toan</span>
         <h1>Hoan tat thong tin dat ve</h1>

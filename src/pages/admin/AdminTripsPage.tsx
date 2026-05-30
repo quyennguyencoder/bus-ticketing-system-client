@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import toast from 'react-hot-toast'
-import { 
-  Search, 
-  Calendar, 
-  Plus, 
-  Edit2, 
-  Trash2, 
+import {
+  Search,
+  Calendar,
+  Plus,
+  Edit2,
+  Trash2,
   AlertCircle,
   ChevronLeft,
   ChevronRight,
@@ -30,7 +30,7 @@ export const AdminTripsPage = () => {
   const [routesList, setRoutesList] = useState<RouteResponse[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  
+
   // Pagination & Filtering
   const [page, setPage] = useState(0)
   const [totalPages, setTotalPages] = useState(0)
@@ -41,7 +41,7 @@ export const AdminTripsPage = () => {
   // Form State
   const [isEditing, setIsEditing] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
-  
+
   const [formRouteId, setFormRouteId] = useState('')
   const [formBusPlate, setFormBusPlate] = useState('')
   const [formBusType, setFormBusType] = useState('Giường nằm 40 chỗ')
@@ -49,6 +49,8 @@ export const AdminTripsPage = () => {
   const [formArrivalTime, setFormArrivalTime] = useState('')
   const [formBasePrice, setFormBasePrice] = useState<number>(150000)
   const [formPrice, setFormPrice] = useState<number>(150000)
+  const [formDriverName, setFormDriverName] = useState('')
+  const [formDriverPhoneNumber, setFormDriverPhoneNumber] = useState('')
   const [formSubmitting, setFormSubmitting] = useState(false)
   const [statusUpdatingId, setStatusUpdatingId] = useState<string | null>(null)
 
@@ -123,6 +125,8 @@ export const AdminTripsPage = () => {
     setFormArrivalTime('')
     setFormBasePrice(150000)
     setFormPrice(150000)
+    setFormDriverName('')
+    setFormDriverPhoneNumber('')
   }
 
   const handleEditClick = (trip: TripResponse) => {
@@ -131,7 +135,7 @@ export const AdminTripsPage = () => {
     setFormRouteId(trip.routeId)
     setFormBusPlate(trip.busPlate)
     setFormBusType(trip.busType)
-    
+
     // Convert ISO string to datetime-local compatible string (YYYY-MM-DDTHH:MM)
     if (trip.departureTime) {
       setFormDepartureTime(new Date(trip.departureTime).toISOString().substring(0, 16))
@@ -141,6 +145,8 @@ export const AdminTripsPage = () => {
     }
     setFormBasePrice(trip.basePrice)
     setFormPrice(trip.price)
+    setFormDriverName(trip.driverName || '')
+    setFormDriverPhoneNumber(trip.driverPhoneNumber || '')
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -160,17 +166,19 @@ export const AdminTripsPage = () => {
 
     setFormSubmitting(true)
     try {
-      const data = {
-        routeId: formRouteId,
-        busPlate: formBusPlate.trim(),
-        busType: formBusType,
-        departureTime: new Date(formDepartureTime).toISOString(),
-        arrivalTime: new Date(formArrivalTime).toISOString(),
-        basePrice: Number(formBasePrice),
-        price: Number(formPrice)
-      }
-
       if (isEditing && editingId) {
+        const data = {
+          routeId: formRouteId,
+          busPlate: formBusPlate.trim(),
+          busType: formBusType,
+          departureTime: new Date(formDepartureTime).toISOString(),
+          arrivalTime: new Date(formArrivalTime).toISOString(),
+          basePrice: Number(formBasePrice),
+          price: Number(formPrice),
+          driverName: formDriverName.trim() || undefined,
+          driverPhoneNumber: formDriverPhoneNumber.trim() || undefined
+        }
+
         const response = await tripService.updateTrip(editingId, data)
         if (response.code === 200 || !response.code) {
           toast.success('Cập nhật chuyến xe thành công!')
@@ -180,6 +188,15 @@ export const AdminTripsPage = () => {
           throw new Error(response.message || 'Không thể cập nhật chuyến xe')
         }
       } else {
+        const data = {
+          routeId: formRouteId,
+          busPlate: formBusPlate.trim(),
+          busType: formBusType,
+          departureTime: new Date(formDepartureTime).toISOString(),
+          arrivalTime: new Date(formArrivalTime).toISOString(),
+          basePrice: Number(formBasePrice),
+          price: Number(formPrice)
+        }
         const response = await tripService.createTrip(data)
         if (response.code === 200 || !response.code) {
           toast.success('Tạo chuyến xe mới thành công!')
@@ -215,7 +232,7 @@ export const AdminTripsPage = () => {
 
   const handleDelete = async (tripId: string) => {
     if (!window.confirm('Bạn có chắc muốn xóa chuyến xe này? Hành động này sẽ xóa hết ghế và lịch đặt kèm theo.')) return
-    
+
     try {
       const response = await tripService.deleteTrip(tripId)
       if (response.code === 200 || !response.code) {
@@ -354,7 +371,7 @@ export const AdminTripsPage = () => {
       </div>
 
       <div className="detail-grid" style={{ gridTemplateColumns: 'minmax(0, 1fr) 380px' }}>
-        
+
         {/* Left Side: Table of Trips */}
         <div className="panel" style={{ padding: 0, overflow: 'hidden' }}>
           {loading ? (
@@ -390,10 +407,10 @@ export const AdminTripsPage = () => {
                 </thead>
                 <tbody style={{ color: '#334155' }}>
                   {filteredTrips.map((trip, idx) => (
-                    <tr 
-                      key={trip.id} 
-                      style={{ 
-                        borderBottom: '1px solid #edf2f7', 
+                    <tr
+                      key={trip.id}
+                      style={{
+                        borderBottom: '1px solid #edf2f7',
                         backgroundColor: idx % 2 === 0 ? '#fff' : '#fcfdfe',
                         transition: 'background-color 0.2s'
                       }}
@@ -417,6 +434,11 @@ export const AdminTripsPage = () => {
                           <span style={{ fontSize: '12px', color: '#64748b', display: 'flex', alignItems: 'center', gap: '4px' }}>
                             <Bus size={12} /> {trip.busType}
                           </span>
+                          {(trip.driverName || trip.driverPhoneNumber) && (
+                            <span style={{ fontSize: '11px', color: '#0f766e', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
+                              👤 {trip.driverName || 'Chưa rõ'} {trip.driverPhoneNumber ? `(${trip.driverPhoneNumber})` : ''}
+                            </span>
+                          )}
                         </div>
                       </td>
 
@@ -561,15 +583,14 @@ export const AdminTripsPage = () => {
               <select
                 value={formRouteId}
                 onChange={(e) => setFormRouteId(e.target.value)}
-                disabled={isEditing}
                 style={{
                   width: '100%',
                   padding: '9px 12px',
                   border: '1px solid #e2e8f0',
                   borderRadius: '8px',
                   fontSize: '14px',
-                  backgroundColor: isEditing ? '#f1f5f9' : '#fff',
-                  cursor: isEditing ? 'not-allowed' : 'pointer',
+                  backgroundColor: '#fff',
+                  cursor: 'pointer',
                   outline: 'none'
                 }}
                 required
@@ -700,6 +721,44 @@ export const AdminTripsPage = () => {
                     outline: 'none'
                   }}
                   required
+                />
+              </div>
+            </div>
+
+            {/* Drivers */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+              <div style={{ display: 'grid', gap: '4px' }}>
+                <label style={{ fontSize: '12px', fontWeight: 600, color: '#475569' }}>Tên tài xế</label>
+                <input
+                  type="text"
+                  placeholder="Ví dụ: Nguyễn Văn A"
+                  value={formDriverName}
+                  onChange={(e) => setFormDriverName(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '8px 10px',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '8px',
+                    fontSize: '13px',
+                    outline: 'none'
+                  }}
+                />
+              </div>
+              <div style={{ display: 'grid', gap: '4px' }}>
+                <label style={{ fontSize: '12px', fontWeight: 600, color: '#475569' }}>SĐT tài xế</label>
+                <input
+                  type="tel"
+                  placeholder="Ví dụ: 0912345678"
+                  value={formDriverPhoneNumber}
+                  onChange={(e) => setFormDriverPhoneNumber(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '8px 10px',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '8px',
+                    fontSize: '13px',
+                    outline: 'none'
+                  }}
                 />
               </div>
             </div>

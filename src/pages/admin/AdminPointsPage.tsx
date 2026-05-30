@@ -99,8 +99,11 @@ export const AdminPointsPage = () => {
     setFormSubmitting(true)
     try {
       if (isEditing && editingId) {
-        // Update point (Note: UpdatePointRequest only contains name)
-        const response = await pointService.updatePoint(editingId, { name: formName })
+        // Update point
+        const response = await pointService.updatePoint(editingId, { 
+          name: formName,
+          provinceCode: formProvinceCode
+        })
         if (response.code === 200 || !response.code) {
           toast.success('Cập nhật trạm dừng thành công!')
           fetchPoints()
@@ -353,21 +356,20 @@ export const AdminPointsPage = () => {
               />
             </div>
 
-            {/* Province Code Selection (Only when creating because pointService.updatePoint only receives "name") */}
+            {/* Province Code Selection */}
             <div style={{ display: 'grid', gap: '6px' }}>
               <label style={{ fontSize: '13px', fontWeight: 600, color: '#475569' }}>Tỉnh / Thành Phố *</label>
               <select
                 value={formProvinceCode}
                 onChange={(e) => setFormProvinceCode(e.target.value)}
-                disabled={isEditing}
                 style={{
                   width: '100%',
                   padding: '10px 12px',
                   border: '1px solid #e2e8f0',
                   borderRadius: '8px',
                   fontSize: '14px',
-                  backgroundColor: isEditing ? '#f1f5f9' : '#fff',
-                  cursor: isEditing ? 'not-allowed' : 'pointer',
+                  backgroundColor: '#fff',
+                  cursor: 'pointer',
                   outline: 'none'
                 }}
                 required
@@ -378,11 +380,6 @@ export const AdminPointsPage = () => {
                   </option>
                 ))}
               </select>
-              {isEditing && (
-                <span style={{ fontSize: '11px', color: '#64748b', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '2px' }}>
-                  <Info size={12} /> Không thể chỉnh sửa Tỉnh/Thành phố sau khi tạo.
-                </span>
-              )}
             </div>
 
             <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>

@@ -8,4 +8,6 @@ export interface UserResponse {
   avatar?: string
   roles: string
   status?: UserStatus
+  createdAt?: string // ISO-8601 DateTime string
+  updatedAt?: string // ISO-8601 DateTime string
 }

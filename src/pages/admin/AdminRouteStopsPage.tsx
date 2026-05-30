@@ -133,6 +133,7 @@ export const AdminRouteStopsPage = () => {
       if (isEditing && editingStopId) {
         // Update
         const response = await routeStopService.updateRouteStop(editingStopId, {
+          pointId: formPointId,
           orderIndex: Number(formOrderIndex),
           timeOffsetMinutes: Number(formTimeOffsetMinutes),
           isPickUp: formIsPickUp,
@@ -401,15 +402,14 @@ export const AdminRouteStopsPage = () => {
               <select
                 value={formPointId}
                 onChange={(e) => setFormPointId(e.target.value)}
-                disabled={isEditing}
                 style={{
                   width: '100%',
                   padding: '10px 12px',
                   border: '1px solid #e2e8f0',
                   borderRadius: '8px',
                   fontSize: '14px',
-                  backgroundColor: isEditing ? '#f1f5f9' : '#fff',
-                  cursor: isEditing ? 'not-allowed' : 'pointer',
+                  backgroundColor: '#fff',
+                  cursor: 'pointer',
                   outline: 'none'
                 }}
                 required

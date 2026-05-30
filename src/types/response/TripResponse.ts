@@ -13,4 +13,6 @@ export interface TripResponse {
   price: number
   status: TripStatus
   availableSeatCount: number
+  driverName?: string
+  driverPhoneNumber?: string
 }

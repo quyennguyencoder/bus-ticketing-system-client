@@ -13,6 +13,7 @@ import {
   TrendingUp,
   UserCheck
 } from 'lucide-react'
+import { BookingStepper } from '../components/booking/BookingStepper'
 import { BookingSummary } from '../components/booking/BookingSummary'
 import { SeatMap } from '../components/booking/SeatMap'
 import { Button } from '../components/ui/Button'
@@ -151,34 +152,7 @@ export const TripDetailPage = () => {
     <section className="page-stack" style={{ gap: '24px' }}>
       
       {/* Visual Stepper / Progress Bar */}
-      <nav style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        gap: '8px', 
-        backgroundColor: '#fff', 
-        padding: '12px 20px', 
-        borderRadius: '12px', 
-        border: '1px solid #e2e8f0',
-        fontSize: '13px',
-        fontWeight: 600,
-        color: '#64748b',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
-      }}>
-        <span style={{ color: '#0f766e', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ display: 'inline-flex', width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#0f766e', color: '#fff', alignItems: 'center', justifyContent: 'center', fontSize: '11px' }}>1</span>
-          Chọn chỗ ngồi
-        </span>
-        <ChevronRight size={14} />
-        <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ display: 'inline-flex', width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#f1f5f9', color: '#64748b', alignItems: 'center', justifyContent: 'center', fontSize: '11px', border: '1px solid #cbd5e1' }}>2</span>
-          Chọn điểm đón trả
-        </span>
-        <ChevronRight size={14} />
-        <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ display: 'inline-flex', width: '20px', height: '20px', borderRadius: '50%', backgroundColor: '#f1f5f9', color: '#64748b', alignItems: 'center', justifyContent: 'center', fontSize: '11px', border: '1px solid #cbd5e1' }}>3</span>
-          Xác nhận & Thanh toán
-        </span>
-      </nav>
+      <BookingStepper currentStep={1} />
 
       {/* Gorgeous Header Banner */}
       <header style={{ 
