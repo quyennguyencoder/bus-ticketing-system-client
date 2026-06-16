@@ -12,6 +12,7 @@ import { useAuthStore } from '../stores/auth.store'
 import { useBookingStore } from '../stores/booking.store'
 import { PaymentMethod } from '../types/enums'
 import { getApiErrorMessage } from '../utils/api-error'
+import bookingBg from '../assets/booking_bg.png'
 
 export const CheckoutPage = () => {
   const navigate = useNavigate()
@@ -75,126 +76,142 @@ export const CheckoutPage = () => {
   }
 
   return (
-    <section className="page-stack">
-      <BookingStepper currentStep={3} />
-      <div className="page-heading compact">
-        <span className="eyebrow">Thanh toan</span>
-        <h1>Hoan tat thong tin dat ve</h1>
-        <p>Ghe duoc giu tam thoi trong 5 phut. Hay hoan tat truoc khi het han.</p>
-      </div>
+    <div style={{
+      backgroundImage: `linear-gradient(rgba(248, 250, 252, 0.75), rgba(248, 250, 252, 0.9)), url(${bookingBg})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
+      minHeight: 'calc(100svh - 76px)',
+      padding: '40px 0',
+      width: '100vw',
+      position: 'relative',
+      left: '50%',
+      right: '50%',
+      marginLeft: '-50vw',
+      marginRight: '-50vw',
+      marginTop: '-34px',
+      marginBottom: '-48px'
+    }}>
+      <section className="page-stack" style={{ maxWidth: '1000px', margin: '100px auto 40px', padding: '0 24px' }}>
+        <BookingStepper currentStep={3} />
+        <div className="page-heading compact">
+          <span className="eyebrow">Thanh toan</span>
+          <h1>Hoan tat thong tin dat ve</h1>
+        </div>
 
-      <div className="detail-grid">
-        <form className="panel checkout-form" onSubmit={handleSubmit}>
-          {holdExpiresAt ? <div className="notice">Han giu ghe: {new Date(holdExpiresAt).toLocaleTimeString('vi-VN')}</div> : null}
-          
-          {pickupStop && dropoffStop && selectedTrip && (
-            <div 
-              style={{ 
-                backgroundColor: '#f8fafc', 
-                border: '1px solid #e2e8f0', 
-                borderRadius: '8px', 
-                padding: '16px', 
-                marginBottom: '24px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '12px'
-              }}
+        <div className="detail-grid">
+          <form className="panel checkout-form" onSubmit={handleSubmit} style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.9)', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05)', borderRadius: '16px' }}>
+            {holdExpiresAt ? <div className="notice">Han giu ghe: {new Date(holdExpiresAt).toLocaleTimeString('vi-VN')}</div> : null}
+
+            {pickupStop && dropoffStop && selectedTrip && (
+              <div
+                style={{
+                  backgroundColor: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '8px',
+                  padding: '16px',
+                  marginBottom: '24px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px'
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14px', fontWeight: 600, color: '#1e293b' }}>Thông tin hành trình đã chọn</span>
+                  <span style={{ fontSize: '12px', color: '#64748b' }}>Tuyến: <strong>{selectedTrip.routeName}</strong></span>
+                </div>
+
+                <div style={{ display: 'flex', gap: '20px', position: 'relative' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', width: '24px', paddingTop: '4px' }}>
+                    <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#3b82f6', zIndex: 2 }} />
+                    <div style={{ flex: 1, width: '2px', borderLeft: '2px dashed #cbd5e1', margin: '4px 0', zIndex: 1 }} />
+                    <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#10b981', zIndex: 2 }} />
+                  </div>
+
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <div>
+                      <div style={{ fontSize: '13px', fontWeight: 600, color: '#1e293b' }}>
+                        Đón: {pickupStop.pointName} <span style={{ fontWeight: 400, color: '#64748b' }}>({pickupStop.provinceName})</span>
+                      </div>
+                      <div style={{ fontSize: '12px', color: '#2563eb', fontWeight: 500, marginTop: '2px' }}>
+                        Thời gian đón: {(() => {
+                          try {
+                            const baseTime = new Date(selectedTrip.departureTime)
+                            const stopTime = new Date(baseTime.getTime() + pickupStop.timeOffsetMinutes * 60 * 1000)
+                            const hours = String(stopTime.getHours()).padStart(2, '0')
+                            const minutes = String(stopTime.getMinutes()).padStart(2, '0')
+                            const day = String(stopTime.getDate()).padStart(2, '0')
+                            const month = String(stopTime.getMonth() + 1).padStart(2, '0')
+                            return `${hours}:${minutes} (${day}/${month})`
+                          } catch {
+                            return ''
+                          }
+                        })()}
+                      </div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '13px', fontWeight: 600, color: '#1e293b' }}>
+                        Trả: {dropoffStop.pointName} <span style={{ fontWeight: 400, color: '#64748b' }}>({dropoffStop.provinceName})</span>
+                      </div>
+                      <div style={{ fontSize: '12px', color: '#059669', fontWeight: 500, marginTop: '2px' }}>
+                        Thời gian trả: {(() => {
+                          try {
+                            const baseTime = new Date(selectedTrip.departureTime)
+                            const stopTime = new Date(baseTime.getTime() + dropoffStop.timeOffsetMinutes * 60 * 1000)
+                            const hours = String(stopTime.getHours()).padStart(2, '0')
+                            const minutes = String(stopTime.getMinutes()).padStart(2, '0')
+                            const day = String(stopTime.getDate()).padStart(2, '0')
+                            const month = String(stopTime.getMonth() + 1).padStart(2, '0')
+                            return `${hours}:${minutes} (${day}/${month})`
+                          } catch {
+                            return ''
+                          }
+                        })()}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <Input
+              label="Ho ten"
+              value={passengerInfo.fullName}
+              onChange={(event) => setPassengerInfo({ fullName: event.target.value })}
+              required
+            />
+            <Input
+              label="Email"
+              type="email"
+              value={passengerInfo.email}
+              onChange={(event) => setPassengerInfo({ email: event.target.value })}
+              required
+            />
+            <Input
+              label="So dien thoai"
+              value={passengerInfo.phoneNumber}
+              onChange={(event) => setPassengerInfo({ phoneNumber: event.target.value })}
+              required
+            />
+            <Select
+              label="Phuong thuc thanh toan"
+              value={passengerInfo.paymentMethod}
+              onChange={(event) => setPassengerInfo({ paymentMethod: event.target.value as PaymentMethod })}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '14px', fontWeight: 600, color: '#1e293b' }}>Thông tin hành trình đã chọn</span>
-                <span style={{ fontSize: '12px', color: '#64748b' }}>Tuyến: <strong>{selectedTrip.routeName}</strong></span>
-              </div>
-              
-              <div style={{ display: 'flex', gap: '20px', position: 'relative' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative', width: '24px', paddingTop: '4px' }}>
-                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#3b82f6', zIndex: 2 }} />
-                  <div style={{ flex: 1, width: '2px', borderLeft: '2px dashed #cbd5e1', margin: '4px 0', zIndex: 1 }} />
-                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#10b981', zIndex: 2 }} />
-                </div>
-                
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  <div>
-                    <div style={{ fontSize: '13px', fontWeight: 600, color: '#1e293b' }}>
-                      Đón: {pickupStop.pointName} <span style={{ fontWeight: 400, color: '#64748b' }}>({pickupStop.provinceName})</span>
-                    </div>
-                    <div style={{ fontSize: '12px', color: '#2563eb', fontWeight: 500, marginTop: '2px' }}>
-                      Thời gian đón: {(() => {
-                        try {
-                          const baseTime = new Date(selectedTrip.departureTime)
-                          const stopTime = new Date(baseTime.getTime() + pickupStop.timeOffsetMinutes * 60 * 1000)
-                          const hours = String(stopTime.getHours()).padStart(2, '0')
-                          const minutes = String(stopTime.getMinutes()).padStart(2, '0')
-                          const day = String(stopTime.getDate()).padStart(2, '0')
-                          const month = String(stopTime.getMonth() + 1).padStart(2, '0')
-                          return `${hours}:${minutes} (${day}/${month})`
-                        } catch {
-                          return ''
-                        }
-                      })()}
-                    </div>
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '13px', fontWeight: 600, color: '#1e293b' }}>
-                      Trả: {dropoffStop.pointName} <span style={{ fontWeight: 400, color: '#64748b' }}>({dropoffStop.provinceName})</span>
-                    </div>
-                    <div style={{ fontSize: '12px', color: '#059669', fontWeight: 500, marginTop: '2px' }}>
-                      Thời gian trả: {(() => {
-                        try {
-                          const baseTime = new Date(selectedTrip.departureTime)
-                          const stopTime = new Date(baseTime.getTime() + dropoffStop.timeOffsetMinutes * 60 * 1000)
-                          const hours = String(stopTime.getHours()).padStart(2, '0')
-                          const minutes = String(stopTime.getMinutes()).padStart(2, '0')
-                          const day = String(stopTime.getDate()).padStart(2, '0')
-                          const month = String(stopTime.getMonth() + 1).padStart(2, '0')
-                          return `${hours}:${minutes} (${day}/${month})`
-                        } catch {
-                          return ''
-                        }
-                      })()}
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <option value={PaymentMethod.VNPAY}>VNPAY</option>
+              <option value={PaymentMethod.CASH}>Tien mat tai ben</option>
+            </Select>
+            <div className="form-actions">
+              <Button type="submit" disabled={submitting} icon={<CreditCard size={16} />}>
+                {submitting ? 'Dang tao don' : 'Tao don hang'}
+              </Button>
             </div>
-          )}
+          </form>
 
-          <Input
-            label="Ho ten"
-            value={passengerInfo.fullName}
-            onChange={(event) => setPassengerInfo({ fullName: event.target.value })}
-            required
-          />
-          <Input
-            label="Email"
-            type="email"
-            value={passengerInfo.email}
-            onChange={(event) => setPassengerInfo({ email: event.target.value })}
-            required
-          />
-          <Input
-            label="So dien thoai"
-            value={passengerInfo.phoneNumber}
-            onChange={(event) => setPassengerInfo({ phoneNumber: event.target.value })}
-            required
-          />
-          <Select
-            label="Phuong thuc thanh toan"
-            value={passengerInfo.paymentMethod}
-            onChange={(event) => setPassengerInfo({ paymentMethod: event.target.value as PaymentMethod })}
-          >
-            <option value={PaymentMethod.VNPAY}>VNPAY</option>
-            <option value={PaymentMethod.CASH}>Tien mat tai ben</option>
-          </Select>
-          <div className="form-actions">
-            <Button type="submit" disabled={submitting} icon={<CreditCard size={16} />}>
-              {submitting ? 'Dang tao don' : 'Tao don hang'}
-            </Button>
-          </div>
-        </form>
-
-        <BookingSummary trip={selectedTrip} seats={selectedSeats} pickupStop={pickupStop} dropoffStop={dropoffStop} />
-      </div>
-    </section>
+          <BookingSummary trip={selectedTrip} seats={selectedSeats} pickupStop={pickupStop} dropoffStop={dropoffStop} />
+        </div>
+      </section>
+    </div>
   )
 }
 

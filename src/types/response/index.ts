@@ -1,7 +1,6 @@
 export * from './AuthResponse'
 export * from './AuthSocialLoginResponse'
 export * from './HoldSeatsResponse'
-export * from './OrderCreateResponse'
 export * from './OrderResponse'
 export * from './PointResponse'
 export * from './RouteResponse'

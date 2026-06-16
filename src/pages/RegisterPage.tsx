@@ -6,6 +6,7 @@ import { Button } from '../components/ui/Button'
 import { Input } from '../components/ui/Input'
 import { useAuthStore } from '../stores/auth.store'
 import { getApiErrorMessage } from '../utils/api-error'
+import authBg from '../assets/auth_bg.png'
 
 export const RegisterPage = () => {
   const navigate = useNavigate()
@@ -28,8 +29,23 @@ export const RegisterPage = () => {
   }
 
   return (
-    <section className="auth-page">
-      <form className="auth-card" onSubmit={handleSubmit}>
+    <>
+      <div style={{
+        position: 'fixed',
+        top: 0, left: 0, right: 0, bottom: 0,
+        zIndex: -1,
+        backgroundImage: `url(${authBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }} />
+      <section className="auth-page" style={{ 
+        minHeight: 'calc(100svh - 150px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '100px 0 40px'
+      }}>
+      <form className="auth-card" onSubmit={handleSubmit} style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(16px)', padding: '40px', borderRadius: '24px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', minWidth: '400px', border: '1px solid rgba(255,255,255,0.4)' }}>
         <h1>Tao tai khoan</h1>
         <p>Luu thong tin hanh khach va theo doi lich su dat ve.</p>
         <Input label="Ho ten" value={form.fullName} onChange={(event) => setForm({ ...form, fullName: event.target.value })} required />
@@ -61,6 +77,7 @@ export const RegisterPage = () => {
           Da co tai khoan? <Link to="/login">Dang nhap</Link>
         </span>
       </form>
-    </section>
+      </section>
+    </>
   )
 }

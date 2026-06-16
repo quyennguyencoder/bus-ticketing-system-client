@@ -4,6 +4,7 @@ import { Clock } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { seatService } from '../services/seat.service'
 import { useBookingStore } from '../stores/booking.store'
+import { useAuthStore } from '../stores/auth.store'
 
 export const BookingLayout = () => {
   const navigate = useNavigate()
@@ -26,6 +27,38 @@ export const BookingLayout = () => {
           clearBooking()
         }
       })()
+    }
+  }, [])
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      const { selectedTrip, selectedSeats } = useBookingStore.getState()
+      if (!selectedTrip || !selectedSeats.length) return
+
+      const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
+      const token = useAuthStore.getState().accessToken
+
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      }
+      if (token) {
+        headers.Authorization = `Bearer ${token}`
+      }
+
+      fetch(`${baseURL}/api/v1/seats/release`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          tripId: selectedTrip.id,
+          seatIds: selectedSeats.map((seat) => seat.id),
+        }),
+        keepalive: true,
+      })
+    }
+
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
     }
   }, [])
 

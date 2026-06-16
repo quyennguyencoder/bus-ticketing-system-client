@@ -6,6 +6,7 @@ import { Input } from '../components/ui/Input'
 import { userService } from '../services/user.service'
 import { useAuthStore } from '../stores/auth.store'
 import { getApiErrorMessage } from '../utils/api-error'
+import userBg from '../assets/user_bg.png'
 
 export const ProfilePage = () => {
   const { user, accessToken, refreshToken, setAuth } = useAuthStore()
@@ -16,7 +17,7 @@ export const ProfilePage = () => {
   const [saving, setSaving] = useState(false)
   const [uploading, setUploading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
-  
+
   const [passwordForm, setPasswordForm] = useState({
     oldPassword: '',
     newPassword: '',
@@ -44,7 +45,7 @@ export const ProfilePage = () => {
   const handlePasswordSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!user) return
-    
+
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
       toast.error('Mật khẩu xác nhận không khớp!')
       return
@@ -86,145 +87,162 @@ export const ProfilePage = () => {
     }
   }
 
-  const avatarUrl = user?.avatar 
-    ? (user.avatar.startsWith('http') ? user.avatar : `http://localhost:8080/api/v1/files/${user.avatar}`) 
+  const avatarUrl = user?.avatar
+    ? (user.avatar.startsWith('http') ? user.avatar : `http://localhost:8080/api/v1/files/${user.avatar}`)
     : undefined
 
   return (
-    <section className="page-stack narrow">
-      <div className="page-heading compact" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-        <div style={{ position: 'relative', flexShrink: 0 }}>
-          <div 
-            style={{ 
-              width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden', 
-              backgroundColor: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              border: '2px solid #e2e8f0', color: '#94a3b8', fontSize: '24px', fontWeight: 600
-            }}
-          >
-            {avatarUrl ? (
-              <img src={avatarUrl} alt={user?.fullName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            ) : (
-              user?.fullName?.charAt(0)?.toUpperCase() || user?.email?.charAt(0)?.toUpperCase() || 'U'
-            )}
-          </div>
-          
-          <button 
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            disabled={uploading}
-            style={{ 
-              position: 'absolute', bottom: -4, right: -4, 
-              backgroundColor: '#2563eb', color: 'white', 
-              border: 'none', borderRadius: '50%', width: '32px', height: '32px', 
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: uploading ? 'not-allowed' : 'pointer', 
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-              transition: 'all 0.2s'
-            }}
-            title="Cap nhat anh dai dien"
-          >
-            {uploading ? <Loader2 size={16} className="animate-spin" /> : <Camera size={16} />}
-          </button>
-          <input 
-            type="file" 
-            ref={fileInputRef} 
-            onChange={handleFileChange} 
-            accept="image/jpeg, image/png, image/webp" 
-            style={{ display: 'none' }} 
-          />
-        </div>
-        <div>
-          <span className="eyebrow">Ho so</span>
-          <h1 style={{ margin: '4px 0' }}>Thong tin ca nhan</h1>
-          <p style={{ margin: 0, color: '#64748b' }}>{user?.email}</p>
-        </div>
-      </div>
-      <form className="panel checkout-form" onSubmit={handleSubmit}>
-        <Input label="Ho ten" value={form.fullName} onChange={(event) => setForm({ ...form, fullName: event.target.value })} />
-        <Input
-          label="So dien thoai"
-          value={form.phoneNumber}
-          onChange={(event) => setForm({ ...form, phoneNumber: event.target.value })}
-        />
-        <Button type="submit" disabled={saving} icon={<Save size={16} />}>
-          {saving ? 'Dang luu' : 'Luu thay doi'}
-        </Button>
-      </form>
-
-      {!showPasswordForm ? (
-        <div style={{ textAlign: 'center', marginTop: '16px' }}>
-          <button
-            type="button"
-            onClick={() => setShowPasswordForm(true)}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#2563eb',
-              textDecoration: 'underline',
-              cursor: 'pointer',
-              fontWeight: 500,
-              fontSize: '14px'
-            }}
-          >
-            Đổi mật khẩu?
-          </button>
-        </div>
-      ) : (
-        <form className="panel checkout-form" onSubmit={handlePasswordSubmit} style={{ marginTop: '24px' }}>
-          <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <div>
-              <h2 style={{ fontSize: '18px', fontWeight: 600, margin: 0 }}>Đổi mật khẩu</h2>
-              <p style={{ fontSize: '13px', color: '#64748b', margin: '4px 0 0' }}>
-                Cập nhật mật khẩu mới để bảo mật tài khoản
-              </p>
+    <div style={{
+      backgroundImage: `linear-gradient(rgba(248, 250, 252, 0.75), rgba(248, 250, 252, 0.9)), url(${userBg})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
+      minHeight: 'calc(100svh - 76px)',
+      padding: '40px 0',
+      width: '100vw',
+      position: 'relative',
+      left: '50%',
+      right: '50%',
+      marginLeft: '-50vw',
+      marginRight: '-50vw',
+      marginTop: '-34px',
+      marginBottom: '-48px'
+    }}>
+      <section className="page-stack narrow" style={{ padding: '0 24px', margin: '100px auto 40px' }}>
+        <div className="page-heading compact" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <div style={{ position: 'relative', flexShrink: 0 }}>
+            <div
+              style={{
+                width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden',
+                backgroundColor: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                border: '2px solid #e2e8f0', color: '#94a3b8', fontSize: '24px', fontWeight: 600
+              }}
+            >
+              {avatarUrl ? (
+                <img src={avatarUrl} alt={user?.fullName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              ) : (
+                user?.fullName?.charAt(0)?.toUpperCase() || user?.email?.charAt(0)?.toUpperCase() || 'U'
+              )}
             </div>
+
             <button
               type="button"
-              onClick={() => {
-                setShowPasswordForm(false)
-                setPasswordForm({ oldPassword: '', newPassword: '', confirmPassword: '' })
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploading}
+              style={{
+                position: 'absolute', bottom: -4, right: -4,
+                backgroundColor: '#2563eb', color: 'white',
+                border: 'none', borderRadius: '50%', width: '32px', height: '32px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                cursor: uploading ? 'not-allowed' : 'pointer',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                transition: 'all 0.2s'
               }}
+              title="Cap nhat anh dai dien"
+            >
+              {uploading ? <Loader2 size={16} className="animate-spin" /> : <Camera size={16} />}
+            </button>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              accept="image/jpeg, image/png, image/webp"
+              style={{ display: 'none' }}
+            />
+          </div>
+          <div>
+            <span className="eyebrow">Ho so</span>
+            <h1 style={{ margin: '4px 0' }}>Thong tin ca nhan</h1>
+            <p style={{ margin: 0, color: '#64748b' }}>{user?.email}</p>
+          </div>
+        </div>
+        <form className="panel checkout-form" onSubmit={handleSubmit} style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.9)', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05)', borderRadius: '16px' }}>
+          <Input label="Ho ten" value={form.fullName} onChange={(event) => setForm({ ...form, fullName: event.target.value })} />
+          <Input
+            label="So dien thoai"
+            value={form.phoneNumber}
+            onChange={(event) => setForm({ ...form, phoneNumber: event.target.value })}
+          />
+          <Button type="submit" disabled={saving} icon={<Save size={16} />}>
+            {saving ? 'Dang luu' : 'Luu thay doi'}
+          </Button>
+        </form>
+
+        {!showPasswordForm ? (
+          <div style={{ textAlign: 'center', marginTop: '16px' }}>
+            <button
+              type="button"
+              onClick={() => setShowPasswordForm(true)}
               style={{
                 background: 'none',
                 border: 'none',
-                color: '#64748b',
+                color: '#2563eb',
                 textDecoration: 'underline',
                 cursor: 'pointer',
-                fontSize: '13px',
-                padding: '4px 0'
+                fontWeight: 500,
+                fontSize: '14px'
               }}
             >
-              Hủy
+              Đổi mật khẩu?
             </button>
           </div>
-          
-          <Input
-            label="Mật khẩu hiện tại"
-            type="password"
-            value={passwordForm.oldPassword}
-            onChange={(event) => setPasswordForm({ ...passwordForm, oldPassword: event.target.value })}
-            required
-          />
-          <Input
-            label="Mật khẩu mới"
-            type="password"
-            value={passwordForm.newPassword}
-            onChange={(event) => setPasswordForm({ ...passwordForm, newPassword: event.target.value })}
-            required
-          />
-          <Input
-            label="Xác nhận mật khẩu mới"
-            type="password"
-            value={passwordForm.confirmPassword}
-            onChange={(event) => setPasswordForm({ ...passwordForm, confirmPassword: event.target.value })}
-            required
-          />
-          
-          <Button type="submit" disabled={changingPassword} icon={<Key size={16} />}>
-            {changingPassword ? 'Đang cập nhật...' : 'Đổi mật khẩu'}
-          </Button>
-        </form>
-      )}
-    </section>
+        ) : (
+          <form className="panel checkout-form" onSubmit={handlePasswordSubmit} style={{ marginTop: '24px', background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.9)', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05)', borderRadius: '16px' }}>
+            <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>
+                <h2 style={{ fontSize: '18px', fontWeight: 600, margin: 0 }}>Đổi mật khẩu</h2>
+                <p style={{ fontSize: '13px', color: '#64748b', margin: '4px 0 0' }}>
+                  Cập nhật mật khẩu mới để bảo mật tài khoản
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowPasswordForm(false)
+                  setPasswordForm({ oldPassword: '', newPassword: '', confirmPassword: '' })
+                }}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#64748b',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                  fontSize: '13px',
+                  padding: '4px 0'
+                }}
+              >
+                Hủy
+              </button>
+            </div>
+
+            <Input
+              label="Mật khẩu hiện tại"
+              type="password"
+              value={passwordForm.oldPassword}
+              onChange={(event) => setPasswordForm({ ...passwordForm, oldPassword: event.target.value })}
+              required
+            />
+            <Input
+              label="Mật khẩu mới"
+              type="password"
+              value={passwordForm.newPassword}
+              onChange={(event) => setPasswordForm({ ...passwordForm, newPassword: event.target.value })}
+              required
+            />
+            <Input
+              label="Xác nhận mật khẩu mới"
+              type="password"
+              value={passwordForm.confirmPassword}
+              onChange={(event) => setPasswordForm({ ...passwordForm, confirmPassword: event.target.value })}
+              required
+            />
+
+            <Button type="submit" disabled={changingPassword} icon={<Key size={16} />}>
+              {changingPassword ? 'Đang cập nhật...' : 'Đổi mật khẩu'}
+            </Button>
+          </form>
+        )}
+      </section>
+    </div>
   )
 }

@@ -1,10 +1,10 @@
 import { axiosInstance } from '../config/axios'
 import { ApiResponse, PageResponse } from '../types/common'
 import { CreateOrderRequest } from '../types/request'
-import { OrderCreateResponse, OrderResponse } from '../types/response'
+import { OrderResponse } from '../types/response'
 
 export const orderService = {
-  createOrder: async (data: CreateOrderRequest): Promise<ApiResponse<OrderCreateResponse>> => {
+  createOrder: async (data: CreateOrderRequest): Promise<ApiResponse<OrderResponse>> => {
     const response = await axiosInstance.post('/api/v1/orders', data)
     return response.data
   },
@@ -14,8 +14,8 @@ export const orderService = {
     return response.data
   },
 
-  getMyOrders: async (page: number = 0, size: number = 10): Promise<ApiResponse<PageResponse<OrderResponse>>> => {
-    const response = await axiosInstance.get('/api/v1/orders/my-orders', { params: { page, size } })
+  getMyOrders: async (page: number = 0, size: number = 10, status?: string): Promise<ApiResponse<PageResponse<OrderResponse>>> => {
+    const response = await axiosInstance.get('/api/v1/orders/my-orders', { params: { page, size, status } })
     return response.data
   },
 

@@ -8,6 +8,7 @@ import { Spinner } from '../components/ui/Spinner'
 import { tripService } from '../services/trip.service'
 import { useBookingStore } from '../stores/booking.store'
 import { getApiErrorMessage } from '../utils/api-error'
+import bookingBg from '../assets/booking_bg.png'
 
 export const TripStopsPage = () => {
   const { tripId } = useParams()
@@ -84,20 +85,29 @@ export const TripStopsPage = () => {
   if (error) return <ErrorState message={error} />
 
   return (
-    <section className="page-stack">
+    <>
+      <div style={{
+        position: 'fixed',
+        top: 0, left: 0, right: 0, bottom: 0,
+        zIndex: -1,
+        backgroundImage: `linear-gradient(rgba(248, 250, 252, 0.75), rgba(248, 250, 252, 0.9)), url(${bookingBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }} />
+    <section className="page-stack" style={{ maxWidth: '1000px', margin: '100px auto 40px', padding: '0 24px' }}>
       <BookingStepper currentStep={2} />
       <div className="page-heading compact">
         <span className="eyebrow">Chon diem don/tra</span>
         <h1>Lua chon diem don va diem tra</h1>
       </div>
 
-      <div className="panel two-cols">
+      <div className="panel two-cols" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.9)', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05)', borderRadius: '16px' }}>
         <RouteStopSelect label="Diem don" stops={pickupStops} value={pickupStop?.id} onChange={setPickupStop} />
         <RouteStopSelect label="Diem tra" stops={dropoffStops} value={dropoffStop?.id} onChange={setDropoffStop} />
       </div>
 
       {/* Visual Timeline and Schedule */}
-      <div className="panel" style={{ padding: '24px' }}>
+      <div className="panel" style={{ padding: '24px', background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.9)', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05)', borderRadius: '16px' }}>
         <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '20px', color: '#1e293b' }}>
           Lộ trình & Thời gian dự kiến của chuyến xe
         </h3>
@@ -224,7 +234,7 @@ export const TripStopsPage = () => {
         )}
       </div>
 
-      <div className="panel-actions">
+      <div className="panel-actions" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', padding: '16px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.9)', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05)' }}>
         <Button variant="secondary" onClick={() => navigate(`/trips/${tripId}`)}>
           Quay lai
         </Button>
@@ -233,5 +243,6 @@ export const TripStopsPage = () => {
         </Button>
       </div>
     </section>
+    </>
   )
 }

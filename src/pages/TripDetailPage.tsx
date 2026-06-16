@@ -27,6 +27,7 @@ import { SeatStatus } from '../types/enums'
 import { getApiErrorMessage } from '../utils/api-error'
 import { formatCurrencyVnd } from '../utils/format'
 import { useSeatSocket } from '../hooks/useSeatSocket'
+import bookingBg from '../assets/booking_bg.png'
 
 export const TripDetailPage = () => {
   const { tripId } = useParams()
@@ -149,7 +150,16 @@ export const TripDetailPage = () => {
   const availableSeatsCount = seats.filter((seat) => seat.status === SeatStatus.AVAILABLE).length
 
   return (
-    <section className="page-stack" style={{ gap: '24px' }}>
+    <>
+      <div style={{
+        position: 'fixed',
+        top: 0, left: 0, right: 0, bottom: 0,
+        zIndex: -1,
+        backgroundImage: `linear-gradient(rgba(248, 250, 252, 0.75), rgba(248, 250, 252, 0.9)), url(${bookingBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }} />
+    <section className="page-stack" style={{ maxWidth: '1000px', margin: '100px auto 40px', padding: '0 24px', gap: '24px' }}>
       
       {/* Visual Stepper / Progress Bar */}
       <BookingStepper currentStep={1} />
@@ -238,7 +248,7 @@ export const TripDetailPage = () => {
         {/* Left: Seat Map Panel */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           
-          <div className="panel" style={{ padding: '24px', borderRadius: '16px' }}>
+          <div className="panel" style={{ padding: '24px', borderRadius: '16px', background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.9)', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05)' }}>
             <div className="panel-heading" style={{ 
               display: 'flex', 
               justifyContent: 'space-between', 
@@ -302,7 +312,7 @@ export const TripDetailPage = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', position: 'sticky', top: '92px' }}>
           
           {/* Main Booking summary card */}
-          <div className="panel" style={{ padding: 0, overflow: 'hidden', borderRadius: '16px' }}>
+          <div className="panel" style={{ padding: 0, overflow: 'hidden', borderRadius: '16px', background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.9)', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05)' }}>
             <div style={{ 
               backgroundColor: '#f8fafc', 
               borderBottom: '1px solid #edf2f7', 
@@ -357,5 +367,6 @@ export const TripDetailPage = () => {
 
       </div>
     </section>
+    </>
   )
 }

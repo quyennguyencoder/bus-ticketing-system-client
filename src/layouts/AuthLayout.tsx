@@ -9,7 +9,7 @@ export const AuthLayout = () => (
     <main className="app-main">
       <Outlet />
     </main>
-    <Footer />
+    {/* <Footer /> */}
     <Toaster position="top-right" toastOptions={{ duration: 3200 }} />
   </div>
 )
