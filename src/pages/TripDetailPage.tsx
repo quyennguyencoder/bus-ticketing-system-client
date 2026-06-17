@@ -3,14 +3,11 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { 
   ShieldCheck, 
-  MapPin, 
   Bus, 
   Calendar, 
   Clock, 
   Sparkles,
   Info,
-  ChevronRight,
-  TrendingUp,
   UserCheck
 } from 'lucide-react'
 import { BookingStepper } from '../components/booking/BookingStepper'
@@ -44,8 +41,6 @@ export const TripDetailPage = () => {
     setSeats,
     toggleSeat,
     setRouteStops,
-    setHoldExpiresAt,
-    holdExpiresAt,
   } = useBookingStore()
   const [loading, setLoading] = useState(true)
   const [holding, setHolding] = useState(false)
@@ -214,7 +209,7 @@ export const TripDetailPage = () => {
               <strong style={{ fontSize: '26px', fontWeight: 800, color: '#2dd4bf' }}>
                 {selectedTrip ? formatCurrencyVnd(selectedTrip.price) : ''}
               </strong>
-              <span style={{ fontSize: '12px', opacity: 0.85, block: 'block' }}>/ vé</span>
+              <span style={{ fontSize: '12px', opacity: 0.85, display: 'block' }}>/ vé</span>
             </div>
           </div>
 

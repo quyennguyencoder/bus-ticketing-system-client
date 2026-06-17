@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import { ArrowLeft, Clock, MapPin, User, Receipt, CreditCard } from 'lucide-react'
+import { ArrowLeft, User, Receipt, CreditCard } from 'lucide-react'
 import { Badge } from '../components/ui/Badge'
 import { Spinner } from '../components/ui/Spinner'
 import { Button } from '../components/ui/Button'
@@ -35,7 +35,7 @@ export const OrderDetailPage = () => {
         setOrder(response.data || null)
         if (response.data?.tripId) {
           tripService.getTripById(response.data.tripId)
-            .then(res => setTrip(res.data))
+            .then(res => setTrip(res.data || null))
             .catch(console.error)
         }
       })

@@ -9,9 +9,6 @@ import {
   AlertCircle,
   ChevronLeft,
   ChevronRight,
-  UserCheck,
-  UserX,
-  UserMinus,
   Edit2
 } from 'lucide-react'
 import { userService } from '../../services/user.service'
@@ -303,7 +300,7 @@ export const AdminUsersPage = () => {
             <AlertCircle size={40} style={{ margin: '0 auto 12px' }} />
             <h3 style={{ fontSize: '16px', fontWeight: 600, margin: 0 }}>Lỗi tải danh sách người dùng</h3>
             <p style={{ fontSize: '14px', margin: '4px 0 0' }}>{error}</p>
-            <Button onClick={fetchUsers} style={{ marginTop: '16px' }} variant="outline">Thử lại</Button>
+            <Button onClick={fetchUsers} style={{ marginTop: '16px' }} variant="secondary">Thử lại</Button>
           </div>
         ) : filteredUsers.length === 0 ? (
           <div style={{ padding: '60px 24px', textAlign: 'center', color: '#64748b' }}>
@@ -479,7 +476,7 @@ export const AdminUsersPage = () => {
 
             <div style={{ display: 'flex', gap: '8px' }}>
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={() => setPage((prev) => Math.max(0, prev - 1))}
                 disabled={page === 0}
@@ -489,7 +486,7 @@ export const AdminUsersPage = () => {
                 Trước
               </Button>
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={() => setPage((prev) => Math.min(totalPages - 1, prev + 1))}
                 disabled={page === totalPages - 1}

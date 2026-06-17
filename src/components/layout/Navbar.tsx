@@ -53,7 +53,7 @@ export const Navbar = () => {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           {(user?.roles?.includes('ADMIN') || user?.roles?.includes('STAFF')) && (
-            <Button variant="outline" onClick={() => navigate('/admin/dashboard')} icon={<LayoutDashboard size={16} />} style={{ borderRadius: '14px', background: 'rgba(15, 118, 110, 0.05)', color: '#0f766e', borderColor: 'rgba(15, 118, 110, 0.2)' }}>
+            <Button variant="secondary" onClick={() => navigate('/admin/dashboard')} icon={<LayoutDashboard size={16} />} style={{ borderRadius: '14px', background: 'rgba(15, 118, 110, 0.05)', color: '#0f766e', borderColor: 'rgba(15, 118, 110, 0.2)' }}>
               Quản trị
             </Button>
           )}

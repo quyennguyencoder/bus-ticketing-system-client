@@ -91,7 +91,7 @@ export const LoginPage = () => {
         <div style={{ display: 'flex', gap: '12px', marginBottom: '8px' }}>
           <Button
             type="button"
-            variant="outline"
+            variant="secondary"
             style={{ flex: 1, display: 'flex', justifyContent: 'center', color: '#db4437', borderColor: '#f8d7da', backgroundColor: '#fff' }}
             onClick={() => handleSocialLogin('google')}
             disabled={loading}
@@ -108,7 +108,7 @@ export const LoginPage = () => {
           </Button>
           <Button
             type="button"
-            variant="outline"
+            variant="secondary"
             style={{ flex: 1, display: 'flex', justifyContent: 'center', color: '#4267B2', borderColor: '#d1e7dd', backgroundColor: '#fff' }}
             onClick={() => handleSocialLogin('facebook')}
             disabled={loading}

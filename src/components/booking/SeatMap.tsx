@@ -1,7 +1,7 @@
-import React, { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { SeatStatus } from '../../types/enums'
 import { SeatResponse } from '../../types/response'
-import { Compass, Calendar } from 'lucide-react'
+import { Compass } from 'lucide-react'
 
 type SeatMapProps = {
   seats: SeatResponse[]
