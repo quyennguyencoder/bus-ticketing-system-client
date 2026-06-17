@@ -6,12 +6,8 @@ import {
   Trash2, 
   AlertCircle,
   Compass,
-  MapPin,
   Clock,
-  ArrowRight,
-  Navigation,
-  Check,
-  X
+  Navigation
 } from 'lucide-react'
 import { routeService } from '../../services/route.service'
 import { pointService } from '../../services/point.service'
@@ -276,7 +272,7 @@ export const AdminRouteStopsPage = () => {
                 />
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
-                  {routeStops.map((stop, idx) => {
+                  {routeStops.map((stop) => {
                     const isFirst = stop.orderIndex === 1
                     
                     return (

@@ -5,14 +5,11 @@ import {
   Plus, 
   Trash2, 
   AlertCircle,
-  Compass,
   CheckCircle,
   HelpCircle,
   XCircle,
   Clock,
-  Sparkles,
-  Layers,
-  ChevronRight
+  Layers
 } from 'lucide-react'
 import { tripService } from '../../services/trip.service'
 import { seatService } from '../../services/seat.service'
@@ -86,9 +83,7 @@ export const AdminSeatsPage = () => {
     fetchSeats()
   }, [selectedTripId])
 
-  const selectedTripDetail = useMemo(() => {
-    return tripsList.find(t => t.id === selectedTripId)
-  }, [selectedTripId, tripsList])
+
 
   const handleAddSeat = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -431,9 +426,9 @@ export const AdminSeatsPage = () => {
                   {selectedSeat.status === SeatStatus.AVAILABLE ? 'Ghế trống (AVAILABLE)' : 
                    selectedSeat.status === SeatStatus.HOLDING ? 'Đang giữ (HOLDING)' : 'Đã bán (SOLD)'}
                 </strong></div>
-                {selectedSeat.holdExpiresAt && (
+                {(selectedSeat as any).holdExpiresAt && (
                   <div style={{ color: '#b45309', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
-                    <Clock size={12} /> Hết hạn giữ: {new Date(selectedSeat.holdExpiresAt).toLocaleTimeString('vi-VN')}
+                    <Clock size={12} /> Hết hạn giữ: {new Date((selectedSeat as any).holdExpiresAt).toLocaleTimeString('vi-VN')}
                   </div>
                 )}
               </div>
@@ -445,8 +440,7 @@ export const AdminSeatsPage = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {selectedSeat.status !== SeatStatus.AVAILABLE && (
                     <Button 
-                      size="sm"
-                      variant="outline"
+                      variant="secondary"
                       onClick={() => handleUpdateStatus(selectedSeat.id, SeatStatus.AVAILABLE)}
                       style={{ display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'center', borderColor: '#10b981', color: '#047857' }}
                     >
@@ -456,7 +450,6 @@ export const AdminSeatsPage = () => {
 
                   {selectedSeat.status !== SeatStatus.SOLD && (
                     <Button 
-                      size="sm"
                       onClick={() => handleUpdateStatus(selectedSeat.id, SeatStatus.SOLD)}
                       style={{ display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'center', backgroundColor: '#ef4444', color: '#fff' }}
                     >
@@ -466,7 +459,6 @@ export const AdminSeatsPage = () => {
 
                   {selectedSeat.status !== SeatStatus.HOLDING && (
                     <Button 
-                      size="sm"
                       variant="secondary"
                       onClick={() => handleUpdateStatus(selectedSeat.id, SeatStatus.HOLDING)}
                       style={{ display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'center' }}

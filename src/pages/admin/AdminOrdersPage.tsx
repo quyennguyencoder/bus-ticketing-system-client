@@ -5,15 +5,11 @@ import {
   Filter, 
   CheckCircle, 
   XCircle, 
-  User, 
   Mail, 
   Phone, 
-  Calendar, 
-  MapPin, 
   CreditCard, 
   ChevronLeft, 
   ChevronRight,
-  TrendingUp,
   AlertCircle
 } from 'lucide-react'
 import { orderService } from '../../services/order.service'
@@ -282,7 +278,7 @@ export const AdminOrdersPage = () => {
             <AlertCircle size={40} style={{ margin: '0 auto 12px' }} />
             <h3 style={{ fontSize: '16px', fontWeight: 600, margin: 0 }}>Lỗi tải dữ liệu</h3>
             <p style={{ fontSize: '14px', margin: '4px 0 0' }}>{error}</p>
-            <Button onClick={fetchOrders} style={{ marginTop: '16px' }} variant="outline">Thử lại</Button>
+            <Button onClick={fetchOrders} style={{ marginTop: '16px' }} variant="secondary">Thử lại</Button>
           </div>
         ) : filteredOrders.length === 0 ? (
           <div style={{ padding: '60px 24px', textAlign: 'center', color: '#64748b' }}>
@@ -304,7 +300,7 @@ export const AdminOrdersPage = () => {
                   <th style={{ padding: '16px 20px' }}>Thanh toán</th>
                   <th style={{ padding: '16px 20px' }}>Trạng thái</th>
                   <th style={{ padding: '16px 20px' }}>Ngày mua</th>
-                  <th style={{ padding: '16px 20px', textRight: 'right' }}>Thao tác</th>
+                  <th style={{ padding: '16px 20px', textAlign: 'right' }}>Thao tác</th>
                 </tr>
               </thead>
               <tbody style={{ color: '#334155' }}>
@@ -477,7 +473,7 @@ export const AdminOrdersPage = () => {
 
             <div style={{ display: 'flex', gap: '8px' }}>
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={() => setPage((prev) => Math.max(0, prev - 1))}
                 disabled={page === 0}
@@ -487,7 +483,7 @@ export const AdminOrdersPage = () => {
                 Trước
               </Button>
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={() => setPage((prev) => Math.min(totalPages - 1, prev + 1))}
                 disabled={page === totalPages - 1}

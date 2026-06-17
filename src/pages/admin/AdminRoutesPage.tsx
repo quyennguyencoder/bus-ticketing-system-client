@@ -1,15 +1,13 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import toast from 'react-hot-toast'
 import { 
-  Search, 
-  Map, 
-  Plus, 
-  Edit2, 
-  Trash2, 
+  Search,
+  Plus,
+  Edit2,
+  Trash2,
   AlertCircle,
   ChevronLeft,
   ChevronRight,
-  TrendingUp,
   Compass
 } from 'lucide-react'
 import { routeService } from '../../services/route.service'
@@ -213,7 +211,7 @@ export const AdminRoutesPage = () => {
                 <AlertCircle size={40} style={{ margin: '0 auto 12px' }} />
                 <h3 style={{ fontSize: '16px', fontWeight: 600, margin: 0 }}>Lỗi tải dữ liệu</h3>
                 <p style={{ fontSize: '14px', margin: '4px 0 0' }}>{error}</p>
-                <Button onClick={fetchRoutes} style={{ marginTop: '16px' }} variant="outline">Thử lại</Button>
+                <Button onClick={fetchRoutes} style={{ marginTop: '16px' }} variant="secondary">Thử lại</Button>
               </div>
             ) : filteredRoutes.length === 0 ? (
               <div style={{ padding: '60px 24px', textAlign: 'center', color: '#64748b' }}>
@@ -311,7 +309,7 @@ export const AdminRoutesPage = () => {
                 </span>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <Button
-                    variant="outline"
+                    variant="secondary"
                     size="sm"
                     onClick={() => setPage((p) => Math.max(0, p - 1))}
                     disabled={page === 0}
@@ -320,7 +318,7 @@ export const AdminRoutesPage = () => {
                     <ChevronLeft size={16} />
                   </Button>
                   <Button
-                    variant="outline"
+                    variant="secondary"
                     size="sm"
                     onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
                     disabled={page === totalPages - 1}

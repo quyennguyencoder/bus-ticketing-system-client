@@ -72,12 +72,12 @@ export const AdminDashboardPage = () => {
           statisticService.getUserGrowth(startDate.toISOString(), endDate),
         ])
 
-        setRevenueData(revRes.data)
-        setOrderStatusData(orderRes.data)
-        setPaymentMethodData(payRes.data)
-        setTopRoutesData(routesRes.data)
-        setTripOccupancyData(occRes.data)
-        setUserGrowthData(userRes.data)
+        setRevenueData(revRes.data || [])
+        setOrderStatusData(orderRes.data || [])
+        setPaymentMethodData(payRes.data || [])
+        setTopRoutesData(routesRes.data || [])
+        setTripOccupancyData(occRes.data || [])
+        setUserGrowthData(userRes.data || [])
       } catch (error) {
         console.error('Lỗi khi tải dữ liệu thống kê:', error)
       } finally {
@@ -165,7 +165,7 @@ export const AdminDashboardPage = () => {
                 <CartesianGrid strokeDasharray="4 4" stroke="rgba(148,163,184,0.2)" />
                 <XAxis dataKey="date" tickLine={false} axisLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
                 <YAxis tickLine={false} axisLine={false} tick={{ fill: '#64748b', fontSize: 12 }} tickFormatter={(val) => formatCompact(val)} />
-                <Tooltip formatter={(value: number) => formatCurrency(value)} labelFormatter={(label) => `Ngày: ${label}`} />
+                <Tooltip formatter={(value: any) => formatCurrency(value)} labelFormatter={(label) => `Ngày: ${label}`} />
                 <Area type="monotone" dataKey="revenue" name="Doanh thu" stroke="var(--accent)" strokeWidth={3} fill="url(#revenueGradient)" />
                 <Line type="monotone" dataKey="revenue" stroke="var(--accent)" strokeWidth={0} dot={{ r: 4, fill: 'var(--surface)', stroke: 'var(--accent)', strokeWidth: 3 }} />
               </AreaChart>
@@ -217,7 +217,7 @@ export const AdminDashboardPage = () => {
                     <Cell key={entry.paymentMethod} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value: number) => formatCurrency(value)} />
+                <Tooltip formatter={(value: any) => formatCurrency(value)} />
                 <Legend verticalAlign="bottom" iconType="circle" />
               </PieChart>
             </ResponsiveContainer>
@@ -256,7 +256,7 @@ export const AdminDashboardPage = () => {
                 <CartesianGrid strokeDasharray="4 4" stroke="rgba(148,163,184,0.2)" horizontal={false} />
                 <XAxis type="number" tickLine={false} axisLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
                 <YAxis dataKey="routeName" type="category" tickLine={false} axisLine={false} tick={{ fill: '#64748b', fontSize: 12 }} width={120} />
-                <Tooltip formatter={(value: number, name: string) => [name === 'Doanh thu' ? formatCurrency(value) : value, name]} />
+                <Tooltip formatter={(value: any, name: string) => [name === 'Doanh thu' ? formatCurrency(value) : value, name]} />
                 <Legend />
                 <Bar dataKey="bookingCount" name="Lượt đặt" fill="#0f766e" radius={[0, 4, 4, 0]} />
                 <Bar dataKey="revenue" name="Doanh thu" fill="#b45309" radius={[0, 4, 4, 0]} />
@@ -277,7 +277,7 @@ export const AdminDashboardPage = () => {
                 <CartesianGrid strokeDasharray="4 4" stroke="rgba(148,163,184,0.2)" vertical={false} />
                 <XAxis dataKey="routeName" tickLine={false} axisLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
                 <YAxis tickLine={false} axisLine={false} tick={{ fill: '#64748b', fontSize: 12 }} width={36} />
-                <Tooltip formatter={(value: number) => [`${value}%`, 'Tỷ lệ lấp đầy']} />
+                <Tooltip formatter={(value: any) => [`${value}%`, 'Tỷ lệ lấp đầy']} />
                 <Bar dataKey="occupancyRate" name="Tỷ lệ lấp đầy (%)" radius={[10, 10, 0, 0]} fill="#0369a1">
                   {tripOccupancyData.map((entry, index) => (
                     <Cell key={entry.routeName} fill={COLORS[index % COLORS.length]} />

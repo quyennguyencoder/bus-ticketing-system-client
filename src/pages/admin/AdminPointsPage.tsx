@@ -8,8 +8,7 @@ import {
   Trash2, 
   AlertCircle,
   ChevronLeft,
-  ChevronRight,
-  Info
+  ChevronRight
 } from 'lucide-react'
 import { pointService } from '../../services/point.service'
 import { PointResponse } from '../../types/response'
@@ -211,7 +210,7 @@ export const AdminPointsPage = () => {
                 <AlertCircle size={40} style={{ margin: '0 auto 12px' }} />
                 <h3 style={{ fontSize: '16px', fontWeight: 600, margin: 0 }}>Lỗi tải dữ liệu</h3>
                 <p style={{ fontSize: '14px', margin: '4px 0 0' }}>{error}</p>
-                <Button onClick={fetchPoints} style={{ marginTop: '16px' }} variant="outline">Thử lại</Button>
+                <Button onClick={fetchPoints} style={{ marginTop: '16px' }} variant="secondary">Thử lại</Button>
               </div>
             ) : filteredPoints.length === 0 ? (
               <div style={{ padding: '60px 24px', textAlign: 'center', color: '#64748b' }}>
@@ -306,7 +305,7 @@ export const AdminPointsPage = () => {
                 </span>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <Button
-                    variant="outline"
+                    variant="secondary"
                     size="sm"
                     onClick={() => setPage((p) => Math.max(0, p - 1))}
                     disabled={page === 0}
@@ -315,7 +314,7 @@ export const AdminPointsPage = () => {
                     <ChevronLeft size={16} />
                   </Button>
                   <Button
-                    variant="outline"
+                    variant="secondary"
                     size="sm"
                     onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
                     disabled={page === totalPages - 1}

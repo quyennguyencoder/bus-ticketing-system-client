@@ -2,14 +2,13 @@ import React, { useEffect, useState, useMemo } from 'react'
 import toast from 'react-hot-toast'
 import {
   Search,
-  User,
-  Mail,
-  Phone,
-  Shield,
-  AlertCircle,
+  Filter,
+  CheckCircle,
+  XCircle,
+  Edit2,
   ChevronLeft,
   ChevronRight,
-  Edit2
+  AlertCircle
 } from 'lucide-react'
 import { userService } from '../../services/user.service'
 import { UserResponse } from '../../types/response'
@@ -477,7 +476,6 @@ export const AdminUsersPage = () => {
             <div style={{ display: 'flex', gap: '8px' }}>
               <Button
                 variant="secondary"
-                size="sm"
                 onClick={() => setPage((prev) => Math.max(0, prev - 1))}
                 disabled={page === 0}
                 style={{ padding: '6px 12px', display: 'flex', alignItems: 'center', gap: '4px' }}
@@ -487,7 +485,6 @@ export const AdminUsersPage = () => {
               </Button>
               <Button
                 variant="secondary"
-                size="sm"
                 onClick={() => setPage((prev) => Math.min(totalPages - 1, prev + 1))}
                 disabled={page === totalPages - 1}
                 style={{ padding: '6px 12px', display: 'flex', alignItems: 'center', gap: '4px' }}
