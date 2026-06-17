@@ -256,7 +256,7 @@ export const AdminDashboardPage = () => {
                 <CartesianGrid strokeDasharray="4 4" stroke="rgba(148,163,184,0.2)" horizontal={false} />
                 <XAxis type="number" tickLine={false} axisLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
                 <YAxis dataKey="routeName" type="category" tickLine={false} axisLine={false} tick={{ fill: '#64748b', fontSize: 12 }} width={120} />
-                <Tooltip formatter={(value: any, name: string) => [name === 'Doanh thu' ? formatCurrency(value) : value, name]} />
+                <Tooltip formatter={(value: any, name: any) => [name === 'Doanh thu' ? formatCurrency(value) : value, name]} />
                 <Legend />
                 <Bar dataKey="bookingCount" name="Lượt đặt" fill="#0f766e" radius={[0, 4, 4, 0]} />
                 <Bar dataKey="revenue" name="Doanh thu" fill="#b45309" radius={[0, 4, 4, 0]} />

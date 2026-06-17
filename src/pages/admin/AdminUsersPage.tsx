@@ -2,9 +2,8 @@ import React, { useEffect, useState, useMemo } from 'react'
 import toast from 'react-hot-toast'
 import {
   Search,
-  Filter,
-  CheckCircle,
-  XCircle,
+  Mail,
+  Phone,
   Edit2,
   ChevronLeft,
   ChevronRight,

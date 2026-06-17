@@ -544,7 +544,6 @@ export const AdminTripsPage = () => {
               <div style={{ display: 'flex', gap: '8px' }}>
                 <Button
                   variant="secondary"
-                  size="sm"
                   onClick={() => setPage((p) => Math.max(0, p - 1))}
                   disabled={page === 0}
                   style={{ padding: '4px 10px' }}
@@ -553,7 +552,6 @@ export const AdminTripsPage = () => {
                 </Button>
                 <Button
                   variant="secondary"
-                  size="sm"
                   onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
                   disabled={page === totalPages - 1}
                   style={{ padding: '4px 10px' }}
