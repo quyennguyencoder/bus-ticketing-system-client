@@ -1,73 +1,66 @@
-# React + TypeScript + Vite
+# Bus Ticketing System - Web Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Dự án Hệ thống Đặt vé Xe khách - Giao diện Web Client. Ứng dụng cung cấp trải nghiệm người dùng hiện đại, tương tác mượt mà cho việc tìm kiếm chuyến xe, đặt vé, và bảng điều khiển quản trị (Admin Dashboard).
 
-Currently, two official plugins are available:
+## 🚀 Công nghệ sử dụng
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Core:** React 19, TypeScript, Vite
+- **State Management:** Zustand
+- **Routing:** React Router DOM
+- **Styling:** Tailwind CSS 4
+- **Data Fetching:** Axios
+- **Real-time:** STOMP.js & SockJS-client (Kết nối WebSocket với Backend)
+- **UI Components & Charts:** Recharts, Lucide React, React Hot Toast
 
-## React Compiler
+## ✨ Tính năng nổi bật
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Giao diện Đặt vé:** Tìm kiếm chuyến đi, chọn chỗ ngồi trực quan theo thời gian thực.
+- **Cập nhật Real-time:** Nhận thông báo và đồng bộ trạng thái ghế ngồi sử dụng WebSocket giúp tránh trùng lặp đặt chỗ.
+- **Admin Dashboard:** Thống kê doanh thu, số lượng vé, quản lý hệ thống chuyến xe với biểu đồ trực quan (Recharts).
+- **Xác thực & Phân quyền:** Đăng nhập an toàn, phân chia quyền User và Admin.
 
-## Expanding the ESLint configuration
+## 🛠 Hướng dẫn Cài đặt (Local Development)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Yêu cầu hệ thống
+- Node.js (phiên bản 18+ hoặc 20+ khuyến nghị)
+- npm (hoặc yarn/pnpm)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Các bước chạy dự án
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+1. **Clone dự án:**
+   ```bash
+   git clone <repo-url>
+   cd bus-ticketing-system-client
+   ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2. **Cài đặt dependencies:**
+   ```bash
+   npm install
+   ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+3. **Cấu hình môi trường:**
+   Đảm bảo bạn có file `.env` ở thư mục gốc để cấu hình URL kết nối với Backend API.
+   Ví dụ nội dung file `.env`:
+   ```env
+   VITE_API_URL=http://localhost:8080/api
+   VITE_WS_URL=http://localhost:8080/ws
+   ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+4. **Khởi chạy môi trường phát triển (Dev server):**
+   ```bash
+   npm run dev
+   ```
+   Ứng dụng sẽ chạy mặc định tại `http://localhost:5173`.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+5. **Build cho Production:**
+   ```bash
+   npm run build
+   ```
+   Thư mục `dist` sẽ được tạo ra chứa các file tĩnh đã tối ưu sẵn sàng cho việc deploy (ví dụ qua Vercel, Netlify).
+
+## 📂 Cấu trúc thư mục chính
+- `src/components/`: Chứa các UI Component dùng chung trên toàn hệ thống.
+- `src/pages/`: Các trang giao diện chính (Trang chủ, Admin Dashboard, Order, v.v.).
+- `src/store/`: Quản lý trạng thái ứng dụng với Zustand.
+- `src/types/`: Khai báo Type/Interface TypeScript giúp đảm bảo Type-Safety (ví dụ: `OrderResponse.ts`).
+- `src/services/`: Cấu hình Axios, WebSockets và các hàm gọi API.
