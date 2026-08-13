@@ -1,5 +1,5 @@
-import { Link, useSearchParams } from 'react-router-dom'
 import { CheckCircle2, XCircle } from 'lucide-react'
+import { Link, useSearchParams } from 'react-router-dom'
 import { Button } from '../components/ui/Button'
 
 export const PaymentResultPage = () => {
