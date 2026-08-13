@@ -11,13 +11,15 @@ export const PaymentResultPage = () => {
   return (
     <section className="state payment-result">
       {success ? <CheckCircle2 size={48} /> : <XCircle size={48} />}
-      <h1>{success ? 'Thanh toan dang duoc xac nhan' : 'Thanh toan chua thanh cong'}</h1>
+      <h1>{success ? 'Thanh toán thành công!' : 'Thanh toán chưa thành công'}</h1>
       <p>
-        {orderId ? `Ma don: ${orderId}. ` : ''}
-        He thong se cap nhat don hang sau khi cong thanh toan gui ket qua ve backend.
+        {orderId ? `Mã đơn: ${orderId}. ` : ''}
+        {success 
+          ? 'Đơn hàng của bạn đã được thanh toán thành công. Hệ thống đang tiến hành xuất vé và gửi về email của bạn.'
+          : 'Giao dịch của bạn đã bị huỷ hoặc có lỗi xảy ra trong quá trình thanh toán.'}
       </p>
       <Link to="/my-orders">
-        <Button>Xem don cua toi</Button>
+        <Button>Xem đơn của tôi</Button>
       </Link>
     </section>
   )
